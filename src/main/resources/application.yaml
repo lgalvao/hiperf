@@ -1,0 +1,45 @@
+spring:
+  application:
+    name: sape
+  profiles:
+    active: db-psql
+  output:
+    ansi:
+      enabled: detect
+  jpa:
+    open-in-view: false
+    properties:
+      javax:
+        persistence:
+          sharedCache:
+            mode: ENABLE_SELECTIVE
+      hibernate:
+        jdbc.batch_size: 20
+        order_inserts: true
+        order_updates: true
+        format_sql: true
+        ddl_auto: none
+        connection:
+          initial_pool_size: 8
+        generate_statistics: true
+        javax.cache:
+          provider: org.ehcache.jsr107.EhcacheCachingProvider
+          missing_cache_strategy: create
+        cache:
+          use_query_cache: true
+          use_second_level_cache: true
+          factory_class: jcache
+
+---
+
+spring:
+  profiles: db-psql
+  jpa:
+    hibernate:
+      ddl-auto: validate
+  datasource:
+    url: jdbc:postgresql://127.0.0.1:5432/postgres
+    username: leonardo
+    password: admin
+    hikari:
+      schema: hiperf
